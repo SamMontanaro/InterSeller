@@ -1,0 +1,106 @@
+body {
+    font-family: 'Roboto Slab', serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Secular One', sans-serif;
+}
+
+.ff-secularone {
+    font-family: 'Secular One', sans-serif;
+}
+
+.homeHero, .aboutHero, .shopHero {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.homeHero {
+    background-image: url(../images/backgrounds/homeHero.jpg);
+}
+
+.aboutHero {
+    background-image: url(../images/backgrounds/aboutHero.jpg);
+}
+
+.shopHero {
+    background-image: url(../images/backgrounds/shopHero.jpg);
+}
+
+.productHero {
+    background-image: url(../images/backgrounds/standardBG.jpg);
+}
+
+.standardBG {
+    background-image: url(../images/backgrounds/standardBG.jpg);
+}
+
+.standardBG-25 {
+    background-image: url(../images/backgrounds/standardBG.jpg);
+    background-position-x: 25%;
+}
+
+.standardBG-50 {
+    background-image: url(../images/backgrounds/standardBG.jpg);
+    background-position-x: 50%;
+}
+
+.standardBG-75 {
+    background-image: url(../images/backgrounds/standardBG.jpg);
+    background-position-x: 75%;
+}
+
+.h-50vh {
+    height: 50vh;
+}
+
+.h-75vh {
+    height: 75vh;
+}
+
+.h-100vh {
+    height: 100vh;
+}
+
+.bg-black-opaque {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.white-shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(255, 255, 255, 0.15);
+}
+
+.white-shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(255, 255, 255, 0.275);
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.w-fit {
+    width: fit-content;
+    width: -moz-fit-content;
+}
+
+.navbar-dark .navbar-nav .nav-link.active {
+    border-bottom: 2px solid #ffc107;
+}
+
+.KeplerSeries, .K2Series, .WaspSeries {
+    display: block;
+}
+
+.zoom {
+    transition: transform .25s ease;
+
+}
+
+.zoom:hover {
+    transform: scale(1.05);
+}
+
+.bg-placeholder-light {
+    background-color: #eee;
+}

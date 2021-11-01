@@ -1,35 +1,52 @@
 "use strict";
 
+var totalPrice = 0
+var orderValue = document.getElementById("order-value");
+var shipping = document.getElementById("shipping-cost");
+var total = document.getElementById("total-price");
+
 window.addEventListener("load", function(){
+    let cart = JSON.parse(localStorage.getItem("cart"));
+    
     let loginPortalButton = document.getElementById("loginButton");
     loginPortalButton.addEventListener("click", function(){
         var modal = new bootstrap.Modal(document.getElementById("loginPortalDown"));
         modal.show();
     })
 
-    let cart = JSON.parse(localStorage.getItem("cart"));
-    let totalPrice = 0;
-
-    for (let i = 0; i < cart.length; i++) {
-        createCartItem(cart[i]);
-        totalPrice += parseInt((cart[i].price).replace("$", "").split(',').join(''));
-    }
-
-    totalPrice = "$" + totalPrice.toLocaleString();
-    let orderValue = document.getElementById("order-value");
-    let shipping = document.getElementById("shipping-cost");
-    let total = document.getElementById("total-price");
+    if (cart !== null && cart.length !== 0) {
+        for (let i = 0; i < cart.length; i++) {
+            createCartItem(cart[i], i);
+            totalPrice += parseInt((cart[i].price).replace("$", "").split(',').join(''));
+        }
     
-    orderValue.innerText = "Order Value: " + totalPrice;
-    shipping.innerText = "Shipping: FREE";
-    total.innerText = "Total: " + totalPrice;
+        totalPrice = "$" + totalPrice.toLocaleString();
+
+        orderValue.innerText = "Order Value: " + totalPrice + ".00";
+        shipping.innerText = "Shipping: FREE";
+        total.innerText = "Total: " + totalPrice + ".00";
+    }
+    else {
+        orderValue.innerText = "Order Value: $0.00";
+        shipping.innerText = "Shipping: FREE";
+        total.innerText = "Total: $0.00"
+
+        document.getElementById("checkoutButton").classList.add("disabled");
+        document.getElementById("emptyCart").style.display = "block";
+
+        let loginPortalLink = document.getElementById("signInLink");
+        loginPortalLink.addEventListener("click", function(){
+            var modal = new bootstrap.Modal(document.getElementById("loginPortalDown"));
+            modal.show();
+        })
+    }
 
     let cartPlaceholder = document.getElementById("cartPlaceholder");
     cartPlaceholder.innerHTML = "";
     cartPlaceholder.remove();
 });
 
-function createCartItem(item) {
+function createCartItem(item, position) {
     var formattedName = item.name;
     formattedName = formattedName.replace("Kepler", "Kepler-");
     formattedName = formattedName.replace("K2", "K2-");
@@ -89,6 +106,40 @@ function createCartItem(item) {
     cardWrapper.appendChild(innerRow);
     outer12Col.appendChild(cardWrapper);
     outerRow.appendChild(outer12Col);
+
+    removeBtn.addEventListener("click", function(){
+        let cart = JSON.parse(localStorage.getItem("cart"));
+        cart = cart.filter(function(index){
+            return index.name !== item.name;
+        })
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        outerRow.innerHTML = "";
+        outerRow.remove();
+
+        totalPrice = parseInt((totalPrice).replace("$", "").split(',').join(''))
+        totalPrice -= parseInt((item.price).replace("$", "").split(',').join(''));
+
+        totalPrice = "$" + totalPrice.toLocaleString();
+
+        orderValue.innerText = "Order Value: " + totalPrice + ".00";
+        total.innerText = "Total: " + totalPrice + ".00";
+
+        let navLinks = document.getElementsByClassName("nav-link");
+        let cartLink = navLinks[navLinks.length - 1];
+        cartLink.innerHTML = "<i class='fas fa-shopping-cart'></i>" + " Cart (" + cart.length + ")";
+
+        if (cart.length === 0) {
+            document.getElementById("checkoutButton").classList.add("disabled");
+            document.getElementById("emptyCart").style.display = "block";
+
+            let loginPortalLink = document.getElementById("signInLink");
+            loginPortalLink.addEventListener("click", function(){
+                let modal = new bootstrap.Modal(document.getElementById("loginPortalDown"));
+                modal.show();
+            })
+        }
+    })
 
     var cartItems = document.getElementById("cartItems");
     cartItems.appendChild(outerRow);
